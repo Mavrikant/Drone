@@ -1,0 +1,10 @@
+import serial
+	rcv=serial.Serial("/dev/ttyAMA0",9600)
+	while True:
+		raw_data=rcv.readline()
+		if '$GPGGA' in raw_data:
+			print(raw_data)
+			datas=raw_data.split(',')
+				for i in range(0,len(datas)-1):
+					print(datas[i])
+
