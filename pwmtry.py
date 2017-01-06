@@ -1,12 +1,17 @@
 import RPi.GPIO as GPIO # always needed with RPi.GPIO  
+from math import atan
 import time
 import curses
+import serial
+a=0
+latinput=raw_input("Please enter latitude(dd):")
+longinput=raw_input("Please enter longitude(dd):")
 #init the curses screen
 stdscr = curses.initscr()
 curses.noecho()
 #use cbreak to not require a return key press
 curses.cbreak()
-print "press q to quit"
+print "press k to quit"
 quit=False
 # loop
 GPIO.setmode(GPIO.BOARD)
@@ -30,6 +35,30 @@ led6=GPIO.PWM(18,50)
 led6.start(5.0)
 i=5.0
 while quit !=True:
+			rcv=serial.Serial("/dev/ttyUSB0",9600)
+        		rawrcv=rcv.readline()
+        		if '$GPVTG' in rawrcv:
+                		heading=rawrcv.split(',')
+				direction=heading[1]
+				
+        		if '$GPGGA' in rawrcv:
+               			a=a+1
+                		print rawrcv
+                		print "iteration amount=",a
+                		datas=rawrcv.split(',')
+				currentlat=double(datas[2])*100
+				latlist=currentlat.split(".")
+				currentlatdeg=latlist[0]
+				currentlatmin=latlist[1]
+				ddlat=currentlatdeg+currentlatmin/60
+				currentlong=double(datas[3])*100
+				longlist=currentlong.split(".")
+				currentlongdeg=longlist[0]
+				currentlongmin=longlist[1]
+				ddlong=currentlongdeg+currentlongmin/60
+				northaxis=latinput-ddlat
+				eastaxis=longinput-ddlong
+				movedir=atan(northaxis/eastaxis)
 			c = stdscr.getch()
 			print curses.keyname(c)
 			if curses.keyname(c)=="w":
