@@ -1,17 +1,19 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from __future__ import division
 import serial
 import time
-a=0
-while True:
-	rcv=serial.Serial("/dev/ttyUSB0",9600,timeout=1)
-	rawrcv=rcv.readline()
-	if '$GPVTG' in rawrcv:
-		print(rawrcv)
-	if '$GPGGA' in rawrcv:
-		a=a+1
-		print(rawrcv)
-		print "iteration amount=",a	
-		datas=rawrcv.split(',')
-		
-			
-	time.sleep(1)
 
+
+ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=0)
+
+params = urllib.urlencode({'key': 'KI5JPZ91PRQUBKN7'})
+ser.flushInput()
+while 1:
+    time.sleep(1)
+    try:
+        x=ser.readline()
+        print x
+    except:
+        y=x
