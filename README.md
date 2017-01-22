@@ -1,0 +1,1 @@
+# Drone işi bizden sorulur
