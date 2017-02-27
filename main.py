@@ -14,7 +14,7 @@ halfmin = 262
 halfmax = 368
 maxval = 420
 midval = 315
-
+tempclock="0"
 # init the curses screen
 
 print 'press k to quit'
@@ -51,8 +51,12 @@ if choice == 'A':
         print data
         if data != 'ERROR':
             data = data.split(',')
-            curlatdecimal[counterint] = data[0]
-            curlondecimal[counterint] = data[1]
+	    if data[2]==tempclock:
+		print "read the same data twice"
+		counterint -= 1
+            curlatdecimal[counterint] = float(data[0])
+            curlondecimal[counterint] = float(data[1])
+	    temp=data[2]
             counterint += 1
         else:
             print "gps can't locate"
@@ -71,6 +75,7 @@ if choice == 'A':
             else:
 
                 counterint = 0
+	time.sleep(1)
 elif choice == 'M':
 
     stdscr = curses.initscr()

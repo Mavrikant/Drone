@@ -54,7 +54,7 @@ def create_page( curlatdecimal, curlondecimal, saat ):
 					"""
 	return
 
-f = open('gps.txt', 'r')
+f = open('gps2.txt', 'r')
 data=f.read().split(",")
 create_page(data[0],data[1],data[2])
 
